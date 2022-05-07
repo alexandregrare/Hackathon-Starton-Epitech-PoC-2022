@@ -1,8 +1,12 @@
 import styled from "styled-components";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 const Home = (): JSX.Element => {
   const [isDragOver, setIsDragOver] = useState(false);
+
+  useEffect(() => {
+    console.log(isDragOver);
+  }, [isDragOver]);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -23,10 +27,20 @@ const Home = (): JSX.Element => {
     <Container>
       <Background src={'/assets/back4.svg'} />
       <UploaderContainer>
-        <DropArea onDragOver={handleDragOver} onDrop={handleDrop} onDragLeave={handleDragEnd} >
-          <AddFileIcon src={'/assets/add_file.svg'} />
-          <PrincipalDescription>Drag & drop <ImportantWord>images</ImportantWord>, <ImportantWord>videos</ImportantWord> or any <ImportantWord>file</ImportantWord></PrincipalDescription>
-          <SecondaryDescription>or <ImportantWordLink>browse file</ImportantWordLink> on your computer</SecondaryDescription>
+        <DropArea
+          isDragOver={isDragOver}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onDragLeave={handleDragEnd}
+        >
+          {!isDragOver ?
+            <>
+              <AddFileIcon src={'/assets/add_file.svg'} />
+              <PrincipalDescription>Drag & drop <ImportantWord>images</ImportantWord>, <ImportantWord>videos</ImportantWord> or any <ImportantWord>file</ImportantWord></PrincipalDescription>
+              <SecondaryDescription>or <ImportantWordLink>browse file</ImportantWordLink> on your computer</SecondaryDescription>
+            </> :
+            <DragOverContainer />
+          }
         </DropArea>
         <Button>Upload</Button>
       </UploaderContainer>
@@ -51,6 +65,7 @@ const Container = styled.div`
 const Background = styled.img`
   position: absolute;
   height: 100%;
+  width: 100%;
 `;
 
 const UploaderContainer = styled.div`
@@ -69,7 +84,11 @@ const UploaderContainer = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
 `;
 
-const DropArea = styled.div`
+interface DropAreaProps {
+  isDragOver: boolean;
+}
+
+const DropArea = styled.div<DropAreaProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,9 +97,9 @@ const DropArea = styled.div`
   height: 300px;
   border: 3px rgba(155, 0, 59, 0.3) dashed;
   border-radius: 28px;
-  padding: 24px;
+  padding: ${({ isDragOver }) => !isDragOver ? '24px' : 'unset'} ;
   box-sizing: border-box;
-  overflow-y: scroll;
+  overflow-y: hidden;
 `;
 
 const AddFileIcon = styled.img`
@@ -136,6 +155,12 @@ const Button = styled.div`
   :hover {
     background: rgba(255, 132, 76, 0.8);
   }
+`;
+
+const DragOverContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  background: rgba(155, 0, 59, 0.3);
 `;
 
 export default Home;
