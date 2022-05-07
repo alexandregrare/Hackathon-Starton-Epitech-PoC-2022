@@ -4,10 +4,6 @@ import React, {useCallback, useEffect, useState} from "react";
 const Home = (): JSX.Element => {
   const [isDragOver, setIsDragOver] = useState(false);
 
-  useEffect(() => {
-    console.log(isDragOver);
-  }, [isDragOver]);
-
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
     setIsDragOver(true);
@@ -20,7 +16,6 @@ const Home = (): JSX.Element => {
 
   const handleDrop = useCallback((e) => {
     e.preventDefault();
-    console.log('DROP')
   }, [])
 
   return (
@@ -39,7 +34,14 @@ const Home = (): JSX.Element => {
               <PrincipalDescription>Drag & drop <ImportantWord>images</ImportantWord>, <ImportantWord>videos</ImportantWord> or any <ImportantWord>file</ImportantWord></PrincipalDescription>
               <SecondaryDescription>or <ImportantWordLink>browse file</ImportantWordLink> on your computer</SecondaryDescription>
             </> :
-            <DragOverContainer />
+              <DragOverContainer>
+                <GifContainer>
+                  <LeftArrowGif src={'/assets/arrow.gif'} />
+                  <FileIcon src={'/assets/file.svg'} />
+                  <RightArrowGif src={'/assets/arrow.gif'} />
+                </GifContainer>
+                <DropHereText>Drop it right here !</DropHereText>
+              </DragOverContainer>
           }
         </DropArea>
         <Button>Upload</Button>
@@ -160,7 +162,40 @@ const Button = styled.div`
 const DragOverContainer = styled.div`
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   background: rgba(155, 0, 59, 0.3);
+  
+`;
+
+const GifContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 80px;
+`;
+
+const RightArrowGif = styled.img`
+  height: 70%;
+  transform: rotate(-90deg);
+`;
+
+const LeftArrowGif = styled.img`
+  height: 70%;
+  transform: scaleX(-1) rotate(-90deg);
+`;
+
+const DropHereText = styled.span`
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+`;
+
+const FileIcon = styled.img`
+  height: 100%;
+  margin: 0 24px;
 `;
 
 export default Home;
