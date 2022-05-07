@@ -28,7 +28,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   user-select: none;
-  
+
   @media screen and (max-width: 850px) {
     padding: 24px;
     box-sizing: border-box;
@@ -51,7 +51,7 @@ const ErrorContainer = styled.div`
   flex-direction: column;
   width: 800px;
   height: 500px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid #E5E8E8;
   border-radius: 12px;
   z-index: 1;

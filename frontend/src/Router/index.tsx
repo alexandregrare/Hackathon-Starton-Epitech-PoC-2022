@@ -1,6 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "pages/NotFound";
+import Home from "pages/Home";
 import React from "react";
 
 interface RouterPros {
@@ -12,7 +13,7 @@ const Router = ({}: RouterPros): JSX.Element => {
     <Container>
       <BrowserRouter>
         <Routes>
-
+          <Route path={'/'} element={<Home />}/>
           <Route path={'*'} element={<NotFound />}/>
         </Routes>
       </BrowserRouter>
