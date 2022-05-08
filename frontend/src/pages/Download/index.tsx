@@ -1,18 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import {Background, BoxContainer, Container} from "pages/Home";
 
 const Download = (): JSX.Element => {
   return (
     <Container>
-
+      <Background src={'/assets/back5.svg'}/>
+      <BoxContainer>
+      </BoxContainer>
     </Container>
   )
 };
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background: red;
-`;
 
 export default Download;
