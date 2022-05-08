@@ -27,18 +27,17 @@ const decryptFile = ({ data, password }: {data: string, password : string} ): st
   return originalText;
 }
 
-const pushFile = async ({ fileData, password }: PushFileProps): Promise<string | null> => {
+export const pushFile = async ({ fileData, password }: PushFileProps): Promise<string | null> => {
   if (fileData === undefined || password === undefined) {
     return null;
   }
-  const fileEncrype = encryptFile({fileData, password})
-  const id = await postFileIpfs(fileEncrype);
-  return id;
+  const fileEncrypt = encryptFile({fileData, password})
+  return await postFileIpfs(fileEncrypt);
 };
 
-const getFile = async ({requestId, password}: GetFileProps): Promise<FileDataType> => {
+export const getFile = async ({requestId, password}: GetFileProps): Promise<FileDataType> => {
   const data = await getFileIpfs(requestId)
   let decryptData = decryptFile({ data, password })
-  const file : FileDataType = JSON.parse(decryptData);
+  const file: FileDataType = JSON.parse(decryptData);
   return file;
 };

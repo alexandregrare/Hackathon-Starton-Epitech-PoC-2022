@@ -10,7 +10,7 @@ const Home = (): JSX.Element => {
   const [reloadStatus, setReloadStatus] = useState(undefined);
   const [isUpload, setIsUpload] = useState(false);
   const [passwordValue, setPasswordValue] = useState('');
-
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     if (reloadStatus) {
@@ -20,6 +20,12 @@ const Home = (): JSX.Element => {
       setReloadStatus(false);
     }
   }, [reloadStatus]);
+
+  useEffect(() => {
+    if (id && passwordValue) {
+      console.log(`www.dtransfert/download/?request_id=${id}&pw=${passwordValue}`);
+    }
+  }, [passwordValue, id])
 
   return (
     <Container>
@@ -32,6 +38,7 @@ const Home = (): JSX.Element => {
           !isUpload ?
             <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
             <SuccessPage
+              setId={setId}
               fileData={fileData}
               passwordValue={passwordValue}
               setReloadStatus={setReloadStatus}

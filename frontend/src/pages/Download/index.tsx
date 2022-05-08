@@ -1,19 +1,33 @@
-import {Background, BoxContainer, Container} from "pages/Home";
 import {FileDataType, FileMetaContainer, FileName} from "pages/Home/DropPage";
-import styled from "styled-components";
-import React, {useCallback, useEffect, useRef, useState} from "react";
 import SuccessAnimation from "pages/Home/SharedPage/SuccessAnimation";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {Background, BoxContainer, Container} from "pages/Home";
 import {SuccessButton} from "pages/Home/SharedPage";
 import {useNavigate} from "react-router-dom";
 import {Input} from "pages/Home/SuccessPage";
+import styled from "styled-components";
+import {getFile} from "client/pushFile";
 
 const Download = (): JSX.Element => {
   const [downloadStatus, setDownloadStatus] = useState(false);
   const [fileData, setFileData] = useState<FileDataType>(undefined);
   const [passwordInputValue, setPasswordInputValue] = useState('');
-  const [password, setPassword] = useState('');
   const passwordRef = useRef(null);
   const navigate = useNavigate();
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const _id = url.searchParams.get('request_id');
+    setId(_id ? _id : '');
+    const _pw = url.searchParams.get('pw');
+    setPassword(_pw ? _pw : '');
+  }, []);
+
+  useEffect(() => {
+    console.log(id, 'here', password);
+  },[id, password]);
 
   useEffect(() => {
     if (password.length === 0 && passwordRef) {
@@ -31,6 +45,9 @@ const Download = (): JSX.Element => {
 
   const handleValidatePassword = useCallback(() => {
     if (passwordInputValue) {
+      if (!password) {
+        setPassword(passwordInputValue);
+      }
       setPasswordInputValue('');
     }
     setPasswordInputValue('');
@@ -42,7 +59,22 @@ const Download = (): JSX.Element => {
 
   const handleChangeValue = useCallback((e) => {
     setPasswordInputValue(e.target.value);
-  }, [setPasswordInputValue])
+  }, [setPasswordInputValue]);
+
+  useEffect(() => {
+    if (id && password) {
+      const file = getFile({requestId: id, password})
+      file.then(value => {
+        setFileData(value);
+      }).catch((error) => {
+        console.error(error);
+      })
+    }
+  }, [id, password]);
+
+  useEffect(() => {
+    console.log(fileData);
+  }, [fileData]);
 
   return (
     <Container>
@@ -58,7 +90,7 @@ const Download = (): JSX.Element => {
             isDisplayed={password.length === 0}
             placeholder={'This file is protected by a password...'}
           />
-          <ValidatePasswordButton onClick={handleValidatePassword} >✓</ValidatePasswordButton>
+          <ValidatePasswordButton style={{ opacity: password.length === 0 ? '1' : '0'}} onClick={handleValidatePassword} >✓</ValidatePasswordButton>
         </PasswordContainer>
         <FileContainer>
           <FileMetaContainer>

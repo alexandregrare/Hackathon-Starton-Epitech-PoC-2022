@@ -8,12 +8,13 @@ import styled from "styled-components";
 interface SuccessPageProps {
   passwordValue: string;
   fileData: FileDataType;
+  setId: (str: string) => void;
   setPasswordValue: (str: string) => void;
   setReloadStatus: (bool: boolean) => void;
   setSharedPageStatus: (bool: boolean) => void;
 }
 
-const SuccessPage = ({ passwordValue, fileData, setPasswordValue, setReloadStatus, setSharedPageStatus }: SuccessPageProps): JSX.Element => {
+const SuccessPage = ({ setId, passwordValue, fileData, setPasswordValue, setReloadStatus, setSharedPageStatus }: SuccessPageProps): JSX.Element => {
   const [status, setStatus] = useState(false);
   const passwordRef = useRef(null);
 
@@ -31,16 +32,20 @@ const SuccessPage = ({ passwordValue, fileData, setPasswordValue, setReloadStatu
 
   const handleClick = useCallback(() => {
     if (status && passwordValue.length !== 0) {
-      if (!pushFile({fileData, password: passwordValue})) {
+      const id = pushFile({fileData, password: passwordValue});
+      if (id) {
+        id.then(value => setId(value));
         setReloadStatus(true);
+        setSharedPageStatus(true);
       }
-      setSharedPageStatus(true);
     } else if (!status) {
-      const password = generatePassword();
-      if (!pushFile({fileData, password})) {
+      setPasswordValue(generatePassword());
+      const id = pushFile({fileData, password: passwordValue});
+      if (id) {
+        id.then(value => setId(value));
         setReloadStatus(true);
+        setSharedPageStatus(true);
       }
-      setSharedPageStatus(true);
     } else {
       setSharedPageStatus(false);
     }
