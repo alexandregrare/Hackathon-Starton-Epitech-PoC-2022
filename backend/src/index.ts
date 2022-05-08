@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import cors from 'cors';
 
-const { PORT } = process.env;
+const PORT = process.env.PORT || 3000;
 const app = express();
 let upload = multer();
 
@@ -17,5 +17,5 @@ app.use(upload.array('file'));
 app.use(express.static('public'));
 
 app.use(express.json({limit: '2mb'}));
-app.use("/ipfs/", IpfsRouter)
+app.use("/ipfs/", IpfsRouter);
 app.listen(PORT, () => console.log(`Ready on port ${PORT}`));
