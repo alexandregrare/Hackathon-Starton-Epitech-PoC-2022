@@ -1,13 +1,6 @@
 version: "3"
 
 services:
-  front:
-    build: ./frontend
-    ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-    networks:
-      - backend
-
   back:
     build: ./backend
     environment:
@@ -16,6 +9,14 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     networks:
       - backend
+
+  front:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    networks:
+      - backend
+
 
 networks:
   backend: {}
