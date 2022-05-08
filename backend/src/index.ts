@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import cors from 'cors';
 
-const { BACKEND_PORT } = process.env;
+const BACKEND_PORT = 8080;
 const app = express();
 let upload = multer();
 
