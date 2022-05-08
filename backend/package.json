@@ -1,0 +1,47 @@
+{
+  "name": "poc",
+  "version": "1.0.0",
+  "description": "## Problème *Quel problème votre projet résout-il ? Comment s'inscrit-il dans le thème \"Construire un avenir décentralisé\" ?*",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/multer": "^1.4.7",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4",
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^12.20.50",
+    "ajv": "^6.12.6",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "class-validator": "^0.13.2",
+    "class-validator-jsonschema": "^3.1.0",
+    "cors": "^2.8.5",
+    "csv-stringify": "^6.0.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "install": "^0.13.0",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.16",
+    "npm": "^8.9.0",
+    "typescript-json-validator": "^2.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandregrare/Hackathon-Starton-Epitech-PoC-2022.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandregrare/Hackathon-Starton-Epitech-PoC-2022/issues"
+  },
+  "homepage": "https://github.com/alexandregrare/Hackathon-Starton-Epitech-PoC-2022#readme"
+}

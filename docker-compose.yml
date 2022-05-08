@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  # front:
+  #   build: ./frontend
+  #   ports:
+  #     - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+  #   depends_on:
+  #     - back
+  #   networks:
+  #     - backend
+
+  back:
+    build: ./backend
+    environment:
+      - STARTON_API_KEY=${STARTON_API_KEY}
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    networks:
+      - backend
+
+networks:
+  backend: {}

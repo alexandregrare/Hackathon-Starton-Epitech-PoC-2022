@@ -1,8 +1,15 @@
 import {FileDataType} from "pages/Home/DropPage";
 import crypto from 'crypto-js'
+import { postFileIpfs } from "../server/postRoutes";
+import { getFileIpfs } from "../server/getRoutes";
 
 interface PushFileProps {
   fileData?: FileDataType;
+  password?: string;
+}
+
+interface GetFileProps {
+  requestId: string;
   password?: string;
 }
 
@@ -20,24 +27,18 @@ const decryptFile = ({ data, password }: {data: string, password : string} ): st
   return originalText;
 }
 
-export const pushFile = ({ fileData, password }: PushFileProps): boolean => {
-  console.log("here")
+const pushFile = async ({ fileData, password }: PushFileProps): Promise<string | null> => {
   if (fileData === undefined || password === undefined) {
-    return false;
+    return null;
   }
-  let data = encryptFile({fileData, password})
-  console.log(getFile({data , password}));
-  return true;
+  const fileEncrype = encryptFile({fileData, password})
+  const id = await postFileIpfs(fileEncrype);
+  return id;
 };
 
-interface GetFileProps {
-  data: string;
-  password: string;
-}
-
-export const getFile = ({ data, password }: GetFileProps): FileDataType => {
+const getFile = async ({requestId, password}: GetFileProps): Promise<FileDataType> => {
+  const data = await getFileIpfs(requestId)
   let decryptData = decryptFile({ data, password })
-  const file: FileDataType = JSON.parse(decryptData);
-
+  const file : FileDataType = JSON.parse(decryptData);
   return file;
 };
