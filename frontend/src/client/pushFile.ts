@@ -15,16 +15,14 @@ interface GetFileProps {
 
 const encryptFile = ({ fileData, password }: PushFileProps): string => {
   const buffer = JSON.stringify(fileData);
-  const ciphertext = crypto.AES.encrypt(buffer, password).toString();
 
-  return ciphertext;
+  const ciphertext = crypto.AES.encrypt(buffer, password);
+  return ciphertext.toString();
 }
 
-const decryptFile = ({ data, password }: {data: string, password : string} ): string => {
-  const bytes  = crypto.AES.decrypt(data, password);
-  const originalText = bytes.toString(crypto.enc.Utf8);
-
-  return originalText;
+const decryptFile = ({ data, password }: {data: any, password : string} ): string => {
+  const bytes = crypto.AES.decrypt(data, password);
+  return bytes.toString(crypto.enc.Utf8);
 }
 
 export const pushFile = async ({ fileData, password }: PushFileProps): Promise<string | null> => {

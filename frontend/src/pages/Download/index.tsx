@@ -26,10 +26,6 @@ const Download = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log(id, 'here', password);
-  },[id, password]);
-
-  useEffect(() => {
     if (password.length === 0 && passwordRef) {
       passwordRef.current.focus();
     } else if (passwordRef) {
@@ -39,7 +35,15 @@ const Download = (): JSX.Element => {
 
   const handleClickDownload = useCallback(() => {
     if (fileData) {
-      setDownloadStatus(true);
+      const b = fileData.data.split(',').map(Number);
+      const a = Uint8Array.from(b)
+
+      const blob = new Blob([a], {type: fileData.type});
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileData.name;
+      link.click();
+      URL.revokeObjectURL(link.href);
     }
   }, [fileData]);
 
@@ -72,15 +76,11 @@ const Download = (): JSX.Element => {
     }
   }, [id, password]);
 
-  useEffect(() => {
-    console.log(fileData);
-  }, [fileData]);
-
   return (
     <Container>
       <Background src={'/assets/back5.svg'}/>
-      <BoxContainer style={{ height: '500px' }} >
-        <SuccessImage src={'/assets/success.svg'} />
+      <BoxContainer style={{height: '500px'}}>
+        <SuccessImage src={'/assets/success.svg'}/>
         <PasswordContainer>
           <Input
             ref={passwordRef}
@@ -90,20 +90,21 @@ const Download = (): JSX.Element => {
             isDisplayed={password.length === 0}
             placeholder={'This file is protected by a password...'}
           />
-          <ValidatePasswordButton style={{ opacity: password.length === 0 ? '1' : '0'}} onClick={handleValidatePassword} >✓</ValidatePasswordButton>
+          <ValidatePasswordButton style={{opacity: password.length === 0 ? '1' : '0'}}
+                                  onClick={handleValidatePassword}>✓</ValidatePasswordButton>
         </PasswordContainer>
         <FileContainer>
           <FileMetaContainer>
-            <FileIcon src={'/assets/document.png'} />
+            <FileIcon src={'/assets/document.png'}/>
             <FileName>{fileData?.name ? fileData.name : 'invalid link...'}</FileName>
           </FileMetaContainer>
-            <Size>{fileData?.size ? `${fileData.size} octets` : ''}</Size>
-          <FileIcon onClick={handleClickDownload} style={{ height: '30px' }} src={'/assets/download.svg'} />
+          <Size>{fileData?.size ? `${fileData.size} octets` : ''}</Size>
+          <FileIcon onClick={handleClickDownload} style={{height: '30px'}} src={'/assets/download.svg'}/>
         </FileContainer>
         {!downloadStatus ?
-          <Button isNotClickable={!fileData?.name} onClick={handleClickDownload} >Download !</Button> :
+          <Button isNotClickable={!fileData?.name} onClick={handleClickDownload}>Download !</Button> :
           <SuccessButton onClick={handleClickUpload}>
-            <SuccessAnimation style={{ width: '20px', height: '20px', marginRight: '12px' }}/>
+            <SuccessAnimation style={{width: '20px', height: '20px', marginRight: '12px'}}/>
             Why not upload your own files ?
           </SuccessButton>}
       </BoxContainer>
@@ -181,16 +182,16 @@ const Button = styled.div<ButtonProps>`
   width: 100%;
   height: 40px;
   border-radius: 12px;
-  background: ${({ isNotClickable }) => isNotClickable ? '#cecccc' : '#FF8A80'};
+  background: ${({isNotClickable}) => isNotClickable ? '#cecccc' : '#FF8A80'};
   text-align: center;
   color: white;
   font-size: 16px;
-  cursor: ${({ isNotClickable }) => isNotClickable ? 'not-allowed' : 'pointer'};
+  cursor: ${({isNotClickable}) => isNotClickable ? 'not-allowed' : 'pointer'};
   box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
   font-weight: bold;
 
   :hover {
-    background: ${({ isNotClickable }) => isNotClickable ? '' : 'rgba(255, 138, 128, 0.8)'};
+    background: ${({isNotClickable}) => isNotClickable ? '' : 'rgba(255, 138, 128, 0.8)'};
   }
 `;
 

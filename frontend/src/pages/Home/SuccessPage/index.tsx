@@ -39,8 +39,9 @@ const SuccessPage = ({ setId, passwordValue, fileData, setPasswordValue, setRelo
         setSharedPageStatus(true);
       }
     } else if (!status) {
-      setPasswordValue(generatePassword());
-      const id = pushFile({fileData, password: passwordValue});
+      const password = generatePassword()
+      setPasswordValue(password);
+      const id = pushFile({fileData, password});
       if (id) {
         id.then(value => setId(value));
         setReloadStatus(true);
