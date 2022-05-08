@@ -37,7 +37,7 @@ export default class IpfsController {
             };
 
             data.append("file", params.file, params.name);
-            data.append("isSync", "true");
+            data.append("isSync", "true")
 
             try {
                 const ipfsImg = await starton.post("/pinning/content/file", data, {
