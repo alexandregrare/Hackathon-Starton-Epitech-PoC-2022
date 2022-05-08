@@ -16,7 +16,7 @@ Le fichier en question n'est pas stocké sur une base de données centralisée, 
 
 ## Utilisation
 Afin d'utiliser notre projet, ouvrez votre navigateur favori et rejoignez notre site internet à l'adresse
-suivante: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
+suivante: [https://dtransfer-app.vercel.app/](https://dtransfer-app.vercel.app/)
 *Expliquez, étape par étape, comment quelqu'un peut installer votre projet et jouer avec. Le jury utilisera principalement MacOS, Ubuntu, Android et iOS. Mettre en place un docker / docker-compose est une bonne idée pour permettre à quelqu'un de tester facilement le projet.*
 
 ## Équipe et commentaires
