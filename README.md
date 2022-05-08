@@ -20,18 +20,11 @@ Team **Madeleine**:
 During this hackathon, we have learned using Starton's API in order to interact with IPFS.  
 
 ## Usage
-To use our product, open your browser and reach the following link: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
-Afin d'utiliser notre projet, ouvrez votre navigateur favori et rejoignez notre site internet à l'adresse
-suivante: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
-
+To use our product, open your browser and reach the following link: [https://dtransfer-app.vercel.app](https://dtransfer-app.vercel.app)
 *   Drop a file in the area in the middle of your screen, or select it from your file explorer.
 *   Choose wether you want to use a password to increase security. It will be required to get the file content when clicking on the generated link.
 *   Click on the upload button once the file has been loaded.
 *   A link has been generated, copy it and send it to who you want (Don't forget to give them the secret password if you used one).
 
-
-*   Déposez un fichier dans le cadre prévu à cet effet, choisissez d'employer ou non un mot de passe afin de sécuriser votre lien, et validez une fois le fichier téléchargé.
-*   Le lien qui vient d'être généré permet à un utilisateur d'accéder à la donnée que vous avez déposée.
-
-
-## Demo Video
+## Demo Video (in french)
+https://www.loom.com/share/3e859ffc25e543c1a215ecf5f991415f
