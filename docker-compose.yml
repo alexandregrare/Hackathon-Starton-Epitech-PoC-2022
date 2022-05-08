@@ -1,14 +1,12 @@
 version: "3"
 
 services:
-  # front:
-  #   build: ./frontend
-  #   ports:
-  #     - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-  #   depends_on:
-  #     - back
-  #   networks:
-  #     - backend
+  front:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    networks:
+      - backend
 
   back:
     build: ./backend
