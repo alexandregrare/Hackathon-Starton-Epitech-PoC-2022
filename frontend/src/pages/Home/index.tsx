@@ -11,6 +11,7 @@ const Home = (): JSX.Element => {
   const [isUpload, setIsUpload] = useState(false);
   const [passwordValue, setPasswordValue] = useState('');
   const [id, setId] = useState(null);
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
     if (reloadStatus) {
@@ -23,7 +24,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (id && passwordValue) {
-      console.log(`www.dtransfert/download/?request_id=${id}&pw=${passwordValue}`);
+      setUrl(`http://localhost:3000/download/?request_id=${id}&pw=${passwordValue}`)
     }
   }, [passwordValue, id])
 
@@ -34,7 +35,7 @@ const Home = (): JSX.Element => {
         {sharedPageStatus ?
           <SharedPage
             setReloadStatus={setReloadStatus}
-            link={'www.yourTransfert/fed6ebf2cea711ec/fa7356b1-d581-4a43-8c3d-dad9c1a6a99a'} /> :
+            link={url} /> :
           !isUpload ?
             <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
             <SuccessPage

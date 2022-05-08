@@ -35,7 +35,6 @@ const SuccessPage = ({ setId, passwordValue, fileData, setPasswordValue, setRelo
       const id = pushFile({fileData, password: passwordValue});
       if (id) {
         id.then(value => setId(value));
-        setReloadStatus(true);
         setSharedPageStatus(true);
       }
     } else if (!status) {
@@ -44,7 +43,6 @@ const SuccessPage = ({ setId, passwordValue, fileData, setPasswordValue, setRelo
       const id = pushFile({fileData, password});
       if (id) {
         id.then(value => setId(value));
-        setReloadStatus(true);
         setSharedPageStatus(true);
       }
     } else {
