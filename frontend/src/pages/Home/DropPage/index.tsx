@@ -1,13 +1,28 @@
-import React, {useCallback, useRef, useState} from "react";
-import styled from "styled-components";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button} from "pages/Home/index";
+import styled from "styled-components";
+import {getSizeStatus} from "utils/getSizeStatus";
+import LoadAnimation from "pages/Home/DropPage/loadAnimation";
 
-interface DropPageProps {
-  setIsUpload: (bool: boolean) => void;
+export interface FileDataType {
+  lastModified?: number;
+  name?: string;
+  size?: number;
+  type?: string;
+  webkitRelativePath?: string;
+  data?: string;
 }
 
-const DropPage = ({ setIsUpload }: DropPageProps): JSX.Element => {
+interface DropPageProps {
+  fileData: FileDataType;
+  setIsUpload: (bool: boolean) => void;
+  setReloadStatus: (bool: boolean) => void;
+  setFileData: (data: FileDataType) => void;
+}
+
+const DropPage = ({ fileData, setIsUpload, setReloadStatus, setFileData }: DropPageProps): JSX.Element => {
   const [isDragOver, setIsDragOver] = useState(false);
+  const [loadStatus, setLoadStatus] = useState(false);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -21,21 +36,41 @@ const DropPage = ({ setIsUpload }: DropPageProps): JSX.Element => {
 
   const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    setIsDragOver(false);
     const reader = new FileReader();
     reader.readAsArrayBuffer(e.target.files[0]);
-    console.log(e.target.files[0])
+
+    reader.onloadstart = () => {
+      setLoadStatus(true);
+    }
+
     reader.onloadend = () => {
-      console.log('DONE', reader);
+      setLoadStatus(false);
       // @ts-ignore
       const view = new Int8Array(reader.result);
-      console.log(view.toString());
+      setFileData({
+        lastModified: e.target.files[0]?.lastModified,
+        name: e.target.files[0]?.name,
+        size: e.target.files[0]?.size,
+        type: e.target.files[0]?.type,
+        webkitRelativePath: e.target.files[0]?.webkitRelativePath,
+        data: view.toString()
+      });
     };
-  }, []);
+  }, [setFileData, setLoadStatus]);
+
+  useEffect(() => {
+    if (getSizeStatus({bytesValue: fileData?.size})) {
+      setReloadStatus(true);
+    }
+  }, [setReloadStatus, fileData]);
 
   const handleUpload = useCallback(() => {
-    setIsDragOver(false);
-    setIsUpload(true);
-  }, [])
+    if (!loadStatus && fileData) {
+      setIsDragOver(false);
+      setIsUpload(true);
+    }
+  }, [setIsUpload, loadStatus])
 
   return (
     <>
@@ -44,9 +79,9 @@ const DropPage = ({ setIsUpload }: DropPageProps): JSX.Element => {
         onDragOver={handleDragOver}
         onDragLeave={handleDragEnd}
       >
+        <Input onChange={handleChangeInput} type={'file'}/>
         {!isDragOver ?
           <>
-            <Input onChange={handleChangeInput} type={'file'}/>
             <AddIcon src={'/assets/add_file.svg'}/>
             <PrincipalDescription>Drag &
               drop <ImportantWord>images</ImportantWord>, <ImportantWord>videos</ImportantWord> or
@@ -63,6 +98,20 @@ const DropPage = ({ setIsUpload }: DropPageProps): JSX.Element => {
             <DropHereText>Drop it right here !</DropHereText>
           </DragOverContainer>}
       </DropArea>
+      <FileUploaded style={{opacity: (fileData || loadStatus) ? '1' : '0'}} >
+        {loadStatus ?
+          <FileMetaContainer>
+            <LoadAnimation style={{ marginRight: '12px' }} />
+            <FileName>Loading...</FileName>
+          </FileMetaContainer> :
+          <>
+            <FileMetaContainer>
+              <FileIcon src={'/assets/document.png'} />
+              <FileName>{fileData?.name}</FileName>
+            </FileMetaContainer>
+            <SizeLimite><ImportantWord>{!getSizeStatus({bytesValue: fileData?.size}) ? 'Size accept ✓' : 'Size NOT accept ✘' }</ImportantWord></SizeLimite>
+          </>}
+      </FileUploaded>
       <Button onClick={handleUpload} >Upload</Button>
     </>
   );
@@ -166,6 +215,44 @@ const Input = styled.input`
   height: 100%;
   opacity: 0;
   cursor: pointer;
+  top: 0;
+  z-index: 20;
+`;
+
+const FileUploaded = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  margin: 12px 0;
+  border-radius: 8px;
+`;
+
+const FileMetaContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  box-sizing: border-box;
+`;
+
+const FileIcon = styled.img`
+  height: 100%;
+  margin-right: 5px;
+`;
+
+const FileName = styled.p`
+  color: #3D3D3D;
+  width: 300px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+`;
+
+const SizeLimite = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #3D3D3D;
 `;
 
 export default DropPage;

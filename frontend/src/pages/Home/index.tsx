@@ -1,21 +1,35 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import SuccessPage from "pages/Home/SuccessPage";
-import DropPage from "pages/Home/DropPage";
+import DropPage, {FileDataType} from "pages/Home/DropPage";
 import SharedPage from "pages/Home/SharedPage";
 
 const Home = (): JSX.Element => {
   const [sharedPageStatus, setSharedPageStatus] = useState(false);
+  const [reloadStatus, setReloadStatus] = useState(undefined);
   const [isUpload, setIsUpload] = useState(false);
+  const [fileData, setFileData] = useState<FileDataType>(undefined);
+
+  useEffect(() => {
+    if (reloadStatus) {
+      setIsUpload(false);
+      setSharedPageStatus(false);
+      setFileData(undefined);
+      setReloadStatus(false);
+    }
+  }, [reloadStatus]);
 
   return (
     <Container>
       <Background src={'/assets/back4.svg'}/>
       <UploaderContainer>
         {sharedPageStatus ?
-          <SharedPage /> : !isUpload ?
-            <DropPage setIsUpload={setIsUpload}/> :
-            <SuccessPage setSharedPageStatus={setSharedPageStatus}/>}
+          <SharedPage
+            setReloadStatus={setReloadStatus}
+            link={'www.yourTransfert/fed6ebf2cea711ec/fa7356b1-d581-4a43-8c3d-dad9c1a6a99a'} /> :
+          !isUpload ?
+            <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
+            <SuccessPage setSharedPageStatus={setSharedPageStatus} />}
       </UploaderContainer>
     </Container>
   );
