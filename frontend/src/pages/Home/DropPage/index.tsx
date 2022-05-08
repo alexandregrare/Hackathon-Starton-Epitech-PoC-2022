@@ -3,7 +3,6 @@ import {Button} from "pages/Home/index";
 import styled from "styled-components";
 import {getSizeStatus} from "utils/getSizeStatus";
 import LoadAnimation from "pages/Home/DropPage/loadAnimation";
-import pushFile from "client/pushFile";
 
 export interface FileDataType {
   lastModified?: number;
@@ -69,11 +68,9 @@ const DropPage = ({ fileData, setIsUpload, setReloadStatus, setFileData }: DropP
   const handleUpload = useCallback(() => {
     if (!loadStatus && fileData) {
       setIsDragOver(false);
-      if (pushFile({fileData, password: '123'})) {
-        setIsUpload(true);
-      } else {
-        setReloadStatus(true);
-      }
+      setIsUpload(true);
+    } else if (!fileData) {
+      setReloadStatus(true);
     }
   }, [setIsUpload, loadStatus, fileData, setReloadStatus])
 

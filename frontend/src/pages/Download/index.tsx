@@ -1,15 +1,27 @@
 import {Background, BoxContainer, Container} from "pages/Home";
 import {FileDataType, FileMetaContainer, FileName} from "pages/Home/DropPage";
 import styled from "styled-components";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import SuccessAnimation from "pages/Home/SharedPage/SuccessAnimation";
 import {SuccessButton} from "pages/Home/SharedPage";
 import {useNavigate} from "react-router-dom";
+import {Input} from "pages/Home/SuccessPage";
 
 const Download = (): JSX.Element => {
   const [downloadStatus, setDownloadStatus] = useState(false);
   const [fileData, setFileData] = useState<FileDataType>(undefined);
+  const [passwordInputValue, setPasswordInputValue] = useState('');
+  const [password, setPassword] = useState('');
+  const passwordRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (password.length === 0 && passwordRef) {
+      passwordRef.current.focus();
+    } else if (passwordRef) {
+      passwordRef.current.blur();
+    }
+  }, [passwordRef, password]);
 
   const handleClickDownload = useCallback(() => {
     if (fileData) {
@@ -17,15 +29,37 @@ const Download = (): JSX.Element => {
     }
   }, [fileData]);
 
+  const handleValidatePassword = useCallback(() => {
+    if (passwordInputValue) {
+      setPasswordInputValue('');
+    }
+    setPasswordInputValue('');
+  }, [passwordInputValue]);
+
   const handleClickUpload = useCallback(() => {
     navigate('/')
   }, []);
 
+  const handleChangeValue = useCallback((e) => {
+    setPasswordInputValue(e.target.value);
+  }, [setPasswordInputValue])
+
   return (
     <Container>
       <Background src={'/assets/back5.svg'}/>
-      <BoxContainer>
+      <BoxContainer style={{ height: '500px' }} >
         <SuccessImage src={'/assets/success.svg'} />
+        <PasswordContainer>
+          <Input
+            ref={passwordRef}
+            type={'password'}
+            value={passwordInputValue}
+            onChange={handleChangeValue}
+            isDisplayed={password.length === 0}
+            placeholder={'This file is protected by a password...'}
+          />
+          <ValidatePasswordButton onClick={handleValidatePassword} >✓</ValidatePasswordButton>
+        </PasswordContainer>
         <FileContainer>
           <FileMetaContainer>
             <FileIcon src={'/assets/document.png'} />
@@ -35,7 +69,7 @@ const Download = (): JSX.Element => {
           <FileIcon onClick={handleClickDownload} style={{ height: '30px' }} src={'/assets/download.svg'} />
         </FileContainer>
         {!downloadStatus ?
-          <Button isNotClickable={fileData?.name ? false : true} onClick={handleClickDownload} >Download !</Button> :
+          <Button isNotClickable={!fileData?.name} onClick={handleClickDownload} >Download !</Button> :
           <SuccessButton onClick={handleClickUpload}>
             <SuccessAnimation style={{ width: '20px', height: '20px', marginRight: '12px' }}/>
             Why not upload your own files ?
@@ -44,6 +78,30 @@ const Download = (): JSX.Element => {
     </Container>
   )
 };
+
+const PasswordContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+const ValidatePasswordButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
+  background: #FF8A80;
+  border-radius: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+
+  :hover {
+    background: rgba(255, 138, 128, 0.6);
+  }
+`;
 
 const SuccessImage = styled.img`
   height: 200px;

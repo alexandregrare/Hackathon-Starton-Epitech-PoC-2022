@@ -32,7 +32,9 @@ const Home = (): JSX.Element => {
           !isUpload ?
             <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
             <SuccessPage
+              fileData={fileData}
               passwordValue={passwordValue}
+              setReloadStatus={setReloadStatus}
               setPasswordValue={setPasswordValue}
               setSharedPageStatus={setSharedPageStatus}
             />}

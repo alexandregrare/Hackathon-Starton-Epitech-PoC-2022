@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import styled from "styled-components";
-import {Button} from "pages/Home/index";
-import pushFile from "client/pushFile";
-import {FileDataType} from "pages/Home/DropPage";
 import {generatePassword} from "utils/generatePassword";
+import {FileDataType} from "pages/Home/DropPage";
+import {pushFile} from "client/pushFile";
+import {Button} from "pages/Home/index";
+import styled from "styled-components";
 
 interface SuccessPageProps {
   passwordValue: string;
@@ -31,30 +31,24 @@ const SuccessPage = ({ passwordValue, fileData, setPasswordValue, setReloadStatu
 
   const handleClick = useCallback(() => {
     if (status && passwordValue.length !== 0) {
-      setSharedPageStatus(true);
-    } else if (!status) {
-      setSharedPageStatus(true);
-    } else {
-      setSharedPageStatus(false);
-    }
-  }, [setSharedPageStatus, status, passwordValue])
-
-  const handleChangeValue = useCallback((e) => {
-    setPasswordValue(e.target.value);
-  }, [setPasswordValue])
-
-  const handleUpload = useCallback(() => {
-    if (passwordValue) {
       if (!pushFile({fileData, password: passwordValue})) {
         setReloadStatus(true);
       }
-    } else {
+      setSharedPageStatus(true);
+    } else if (!status) {
       const password = generatePassword();
       if (!pushFile({fileData, password})) {
         setReloadStatus(true);
       }
+      setSharedPageStatus(true);
+    } else {
+      setSharedPageStatus(false);
     }
-  }, [fileData, passwordValue, setReloadStatus])
+  }, [setSharedPageStatus, status, passwordValue, fileData])
+
+  const handleChangeValue = useCallback((e) => {
+    setPasswordValue(e.target.value);
+  }, [setPasswordValue])
 
   return (
     <Container>
@@ -71,7 +65,7 @@ const SuccessPage = ({ passwordValue, fileData, setPasswordValue, setReloadStatu
         onChange={handleChangeValue}
         placeholder={'Type your password... This will be used to encrypt your document.'}
       />
-      <Button onClick={handleClick} >Next step</Button>
+      <Button isNotClickable={status && passwordValue.length === 0} onClick={handleClick} >Next step</Button>
     </Container>
   );
 };
@@ -118,7 +112,7 @@ interface InputProps {
   isDisplayed: boolean;
 }
 
-const Input = styled.input<InputProps>`
+export const Input = styled.input<InputProps>`
   width: 100%;
   height: 40px;
   border: 1px solid #E5E8E8;

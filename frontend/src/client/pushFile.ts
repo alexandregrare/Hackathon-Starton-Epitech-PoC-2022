@@ -1,5 +1,6 @@
-import crypto from 'crypto-js'
 import {FileDataType} from "pages/Home/DropPage";
+import crypto from 'crypto-js'
+
 interface PushFileProps {
   fileData?: FileDataType;
   password?: string;
@@ -19,7 +20,8 @@ const decryptFile = ({ data, password }: {data: string, password : string} ): st
   return originalText;
 }
 
-const pushFile = ({ fileData, password }: PushFileProps): boolean => {
+export const pushFile = ({ fileData, password }: PushFileProps): boolean => {
+  console.log("here")
   if (fileData === undefined || password === undefined) {
     return false;
   }
@@ -28,11 +30,14 @@ const pushFile = ({ fileData, password }: PushFileProps): boolean => {
   return true;
 };
 
-const getFile = ({ data, password }: {data : string, password : string}): FileDataType => {
+interface GetFileProps {
+  data: string;
+  password: string;
+}
+
+export const getFile = ({ data, password }: GetFileProps): FileDataType => {
   let decryptData = decryptFile({ data, password })
-  const file : FileDataType = JSON.parse(decryptData);
+  const file: FileDataType = JSON.parse(decryptData);
 
   return file;
 };
-
-export default pushFile;
