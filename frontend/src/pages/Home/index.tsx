@@ -1,50 +1,21 @@
+import React, {useState} from "react";
 import styled from "styled-components";
-import React, {useCallback, useEffect, useState} from "react";
+import SuccessPage from "pages/Home/SuccessPage";
+import DropPage from "pages/Home/DropPage";
+import SharedPage from "pages/Home/SharedPage";
 
 const Home = (): JSX.Element => {
-  const [isDragOver, setIsDragOver] = useState(false);
-
-  const handleDragOver = useCallback((e) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  }, []);
-
-  const handleDragEnd = useCallback((e) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  }, [isDragOver]);
-
-  const handleDrop = useCallback((e) => {
-    e.preventDefault();
-  }, [])
+  const [sharedPageStatus, setSharedPageStatus] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
 
   return (
     <Container>
-      <Background src={'/assets/back4.svg'} />
+      <Background src={'/assets/back4.svg'}/>
       <UploaderContainer>
-        <DropArea
-          isDragOver={isDragOver}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          onDragLeave={handleDragEnd}
-        >
-          {!isDragOver ?
-            <>
-              <AddFileIcon src={'/assets/add_file.svg'} />
-              <PrincipalDescription>Drag & drop <ImportantWord>images</ImportantWord>, <ImportantWord>videos</ImportantWord> or any <ImportantWord>file</ImportantWord></PrincipalDescription>
-              <SecondaryDescription>or <ImportantWordLink>browse file</ImportantWordLink> on your computer</SecondaryDescription>
-            </> :
-              <DragOverContainer>
-                <GifContainer>
-                  <LeftArrowGif src={'/assets/arrow.gif'} />
-                  <FileIcon src={'/assets/file.svg'} />
-                  <RightArrowGif src={'/assets/arrow.gif'} />
-                </GifContainer>
-                <DropHereText>Drop it right here !</DropHereText>
-              </DragOverContainer>
-          }
-        </DropArea>
-        <Button>Upload</Button>
+        {sharedPageStatus ?
+          <SharedPage /> : !isUpload ?
+            <DropPage setIsUpload={setIsUpload}/> :
+            <SuccessPage setSharedPageStatus={setSharedPageStatus}/>}
       </UploaderContainer>
     </Container>
   );
@@ -86,60 +57,7 @@ const UploaderContainer = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
 `;
 
-interface DropAreaProps {
-  isDragOver: boolean;
-}
-
-const DropArea = styled.div<DropAreaProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 300px;
-  border: 3px rgba(155, 0, 59, 0.3) dashed;
-  border-radius: 28px;
-  padding: ${({ isDragOver }) => !isDragOver ? '24px' : 'unset'} ;
-  box-sizing: border-box;
-  overflow-y: hidden;
-`;
-
-const AddFileIcon = styled.img`
-  width: 105px;
-  height: 105px;
-  filter: drop-shadow(10px 10px 8px rgba(103, 102, 102, 0.4));
-`;
-
-const PrincipalDescription = styled.h1`
-  font-size: 30px;
-  width: 60%;
-  text-align: center;
-  margin: 12px 0 0 0;
-  color: #3D3D3D;
-`;
-
-const ImportantWord = styled.span`
-  margin: 0;
-  color: #FF844C;
-`;
-
-const SecondaryDescription = styled.h1`
-  font-size: 15px;
-  width: 50%;
-  text-align: center;
-  margin: 12px 0 0 0;
-  color: #3D3D3D;
-`;
-
-const ImportantWordLink = styled.span`
-  margin: 0;
-  color: #FF844C;
-  text-decoration: 1px #FF844C solid underline;
-  text-underline-offset: 5px;
-  cursor: pointer;
-`;
-
-const Button = styled.div`
+export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,45 +75,6 @@ const Button = styled.div`
   :hover {
     background: rgba(255, 132, 76, 0.8);
   }
-`;
-
-const DragOverContainer = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  background: rgba(155, 0, 59, 0.3);
-  
-`;
-
-const GifContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 80px;
-`;
-
-const RightArrowGif = styled.img`
-  height: 70%;
-  transform: rotate(-90deg);
-`;
-
-const LeftArrowGif = styled.img`
-  height: 70%;
-  transform: scaleX(-1) rotate(-90deg);
-`;
-
-const DropHereText = styled.span`
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-`;
-
-const FileIcon = styled.img`
-  height: 100%;
-  margin: 0 24px;
 `;
 
 export default Home;
