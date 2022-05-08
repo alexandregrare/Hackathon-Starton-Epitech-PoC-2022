@@ -2,6 +2,7 @@ import React, {useCallback, useRef, useState} from "react";
 import styled from "styled-components";
 import {Button} from "pages/Home/index";
 import { postFileIpfs } from "../../../server/postRoutes";
+import { getFileIpfs } from "../../../server/getRoutes";
 
 interface DropPageProps {
   setIsUpload: (bool: boolean) => void;
@@ -25,7 +26,6 @@ const DropPage = ({ setIsUpload }: DropPageProps): JSX.Element => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(e.target.files[0]);
     console.log(e.target.files[0])
-    postFileIpfs(e.target.files);
     reader.onloadend = () => {
       console.log('DONE', reader);
       // @ts-ignore

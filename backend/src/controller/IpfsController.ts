@@ -20,12 +20,24 @@ interface File {
     file: string
 }
 
+const createUrl = (ipfsData: any, password: string) => {
+
+    const id = ipfsData.requestid;
+    let url = "http://localhost:3000/getFile?id="+id;
+
+    if (password != undefined) {
+        url += "&password="+password;
+    }
+    return url;
+}
 export default class IpfsController {
+
     async uploadData(req: express.Request, res: express.Response) : Promise<express.Response | null>
     {
         try {
             let data = new FormData();
             let files: any = req.files
+            const password = req.body.password;
 
             if (files == null) {
                 return res.status(400).json({ message: 'No files were uploaded.' });
@@ -43,7 +55,7 @@ export default class IpfsController {
                     maxBodyLength: "Infinity",
                     headers: { "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`},
                 });
-                return res.status(200).send(ipfsImg.data);
+                return res.status(200).send(createUrl(ipfsImg.data, password));
             } catch (error) {
                 console.error(error);
                 return res.status(500).send('Error while sending data to starton server.');

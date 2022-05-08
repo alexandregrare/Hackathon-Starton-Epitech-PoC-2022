@@ -1,15 +1,15 @@
 import { AxiosResponse } from "axios";
 import { backendURL } from "./setBackend";
-import FormData from "form-data";
 
-export const postFileIpfs = (data: FileList) => {
-    const formdata = new FormData();
-    formdata.append("file", data[0], data[0].name);
+export const getFileIpfs = (data: string) => {
     backendURL
-        .post('/ipfs/upload', formdata)
+        .get('/ipfs/get', {
+            params: {
+                request_id: data
+            }
+        })
         .then((res) => {
             console.log(res);
-            return res.data;
         })
         .catch((error) => {
             console.error(`error: ${error}`);
