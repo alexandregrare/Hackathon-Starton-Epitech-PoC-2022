@@ -5,7 +5,7 @@ import FormData from 'form-data';
 
 dotenv.config();
 
-const { STARTON_API_KEY } = process.env;
+const STARTON_API_KEY = process.env.STARTON_API_KEY;
 const starton: any = axios.create(
   {
     baseURL: "https://api.starton.io/v2",
@@ -30,7 +30,6 @@ export default class IpfsController {
             if (files == null) {
                 return res.status(400).json({ message: 'No files were uploaded.' });
             }
-            console.log(typeof(files[0]), files[0].buffer.toString().length);
             const params : File = {
                 name: (files[0].originalname != undefined) ? files[0].originalname : "NoName",
                 file: files[0].buffer.toString()
@@ -58,17 +57,19 @@ export default class IpfsController {
 
     async getData(req: express.Request, res: express.Response) : Promise<express.Response | null>
     {
-        const id : string = req.body.request_id;
+        const tmpId = req.query.request_id;
 
-        if (id == null) {
+        if (tmpId == undefined) {
             return res.status(400).json({ message: 'No request id was provided.' });
         }
+
+        const id : string = tmpId.toString();
         try {
             const ipfsImg = await starton.get("/pinning/content/".concat(id), {
                 maxBodyLength: "Infinity",
-                headers: { "Content-Type": `multipart/form-data` },
+                headers: { "Content-Type": `multipart/form-data`}
             })
-            .catch(() => {
+            .catch((e: any) => {
                 return res.status(500).send('Error while sending data to starton server');
             });
 
