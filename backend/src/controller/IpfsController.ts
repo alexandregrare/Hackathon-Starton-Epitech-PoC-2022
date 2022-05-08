@@ -25,7 +25,7 @@ export default class IpfsController {
     {
         try {
             let data = new FormData();
-            let files: any = req.files;
+            let files: any = req.files
 
             if (files == null) {
                 return res.status(400).json({ message: 'No files were uploaded.' });
