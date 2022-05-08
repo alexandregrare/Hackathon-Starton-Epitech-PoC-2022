@@ -16,6 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array('file'));
 app.use(express.static('public'));
 
-app.use(express.json({limit: '2mb'}))
+app.use(express.json({limit: '2mb'}));
 app.use("/ipfs/", IpfsRouter)
 app.listen(BACKEND_PORT, () => console.log(`Ready on port ${BACKEND_PORT}`));
