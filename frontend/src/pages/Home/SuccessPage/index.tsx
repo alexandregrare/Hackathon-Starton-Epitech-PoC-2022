@@ -107,7 +107,9 @@ const Input = styled.input<InputProps>`
   padding: 4px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  
+  background: white;
+
+
   :focus {
     outline: none;
     border: 2px solid rgba(255, 132, 76, 0.8);
