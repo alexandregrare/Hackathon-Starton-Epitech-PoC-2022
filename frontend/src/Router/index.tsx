@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NotFound from "pages/NotFound";
 import Home from "pages/Home";
 import React from "react";
+import Download from "pages/Download";
 
 interface RouterPros {
 
@@ -14,6 +15,7 @@ const Router = ({}: RouterPros): JSX.Element => {
       <BrowserRouter>
         <Routes>
           <Route path={'/'} element={<Home />}/>
+          <Route path={'/download'} element={<Download />}/>
           <Route path={'*'} element={<NotFound />}/>
         </Routes>
       </BrowserRouter>

@@ -71,7 +71,7 @@ const DropPage = ({ fileData, setIsUpload, setReloadStatus, setFileData }: DropP
   const handleUpload = useCallback(() => {
     if (!loadStatus && fileData) {
       setIsDragOver(false);
-      if (pushFile({fileData})) {
+      if (pushFile({fileData, password: '123'})) {
         setIsUpload(true);
       } else {
         setReloadStatus(true);
