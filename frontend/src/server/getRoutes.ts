@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { backendURL } from "./setBackend";
 
-export const getFileIpfs = (data: string) => {
+export const getFileIpfs = async (data: string): Promise<string> =>
     backendURL
         .get('/ipfs/get', {
             params: {
@@ -9,10 +9,9 @@ export const getFileIpfs = (data: string) => {
             }
         })
         .then((res) => {
-            console.log(res);
+            return res.data
         })
         .catch((error) => {
             console.error(`error: ${error}`);
-            return false;
+            return "";
         });
-};

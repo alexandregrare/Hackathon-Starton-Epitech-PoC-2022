@@ -22,10 +22,7 @@ interface File {
 
 const createUrl = (ipfsData: any) => {
 
-    const id = ipfsData.requestid;
-    const url = "http://localhost:3000/getFile?id="+id;
-
-    return url;
+    return ipfsData.requestid;
 }
 export default class IpfsController {
 
@@ -38,8 +35,8 @@ export default class IpfsController {
             if (file == null) {
                 return res.status(400).json({ message: 'No file was uploaded.' });
             }
-
-            data.append("file", file);
+            const fileSend : File = {name : "", file}
+            data.append("file", fileSend.file, "name");
             data.append("isSync", "true");
 
             try {

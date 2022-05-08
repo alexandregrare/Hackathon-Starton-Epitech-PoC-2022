@@ -22,7 +22,7 @@ const Home = (): JSX.Element => {
   return (
     <Container>
       <Background src={'/assets/back4.svg'}/>
-      <UploaderContainer>
+      <BoxContainer>
         {sharedPageStatus ?
           <SharedPage
             setReloadStatus={setReloadStatus}
@@ -30,12 +30,12 @@ const Home = (): JSX.Element => {
           !isUpload ?
             <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
             <SuccessPage setSharedPageStatus={setSharedPageStatus} />}
-      </UploaderContainer>
+      </BoxContainer>
     </Container>
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,13 +49,13 @@ const Container = styled.div`
   }
 `;
 
-const Background = styled.img`
+export const Background = styled.img`
   position: absolute;
   height: 100%;
   width: 100%;
 `;
 
-const UploaderContainer = styled.div`
+export const BoxContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
