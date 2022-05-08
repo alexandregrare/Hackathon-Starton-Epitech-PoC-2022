@@ -33,12 +33,11 @@ const SharedPage = ({ setReloadStatus, link }: SharedPageProps): JSX.Element => 
       <LinkArea isSelected={isSelected} onClick={handleClickCopy} ><LinkDisplay>{link}</LinkDisplay></LinkArea>
       {!hasLinkCopied ?
         <Button onClick={handleClickCopy} >Copy the link</Button> :
-        <Button
+        <SuccessButton
           onClick={handleClickAnother}
-          style={{ background: '#bde0a2', color: "black" }}
         >
           <SuccessAnimation style={{ width: '20px', height: '20px', marginRight: '12px' }}/>Another one?
-        </Button>}
+        </SuccessButton>}
     </Container>
   )
 };
@@ -108,6 +107,26 @@ const LinkDisplay = styled.p`
   text-overflow: ellipsis;
   color: #3D3D3D;
   cursor: text;
+`;
+
+export const SuccessButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  background: #bde0a2;
+  color: black;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+  font-weight: bold;
+
+  :hover {
+    background: rgba(189, 224, 162, 0.8);
+  }
 `;
 
 export default SharedPage;

@@ -5,10 +5,12 @@ import DropPage, {FileDataType} from "pages/Home/DropPage";
 import SharedPage from "pages/Home/SharedPage";
 
 const Home = (): JSX.Element => {
+  const [fileData, setFileData] = useState<FileDataType>(undefined);
   const [sharedPageStatus, setSharedPageStatus] = useState(false);
   const [reloadStatus, setReloadStatus] = useState(undefined);
   const [isUpload, setIsUpload] = useState(false);
-  const [fileData, setFileData] = useState<FileDataType>(undefined);
+  const [passwordValue, setPasswordValue] = useState('');
+
 
   useEffect(() => {
     if (reloadStatus) {
@@ -29,7 +31,11 @@ const Home = (): JSX.Element => {
             link={'www.yourTransfert/fed6ebf2cea711ec/fa7356b1-d581-4a43-8c3d-dad9c1a6a99a'} /> :
           !isUpload ?
             <DropPage setReloadStatus={setReloadStatus} fileData={fileData} setIsUpload={setIsUpload} setFileData={setFileData} /> :
-            <SuccessPage setSharedPageStatus={setSharedPageStatus} />}
+            <SuccessPage
+              passwordValue={passwordValue}
+              setPasswordValue={setPasswordValue}
+              setSharedPageStatus={setSharedPageStatus}
+            />}
       </BoxContainer>
     </Container>
   );
@@ -69,25 +75,30 @@ export const BoxContainer = styled.div`
   padding: 24px;
   box-sizing: border-box;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+  overflow: hidden;
 `;
 
-export const Button = styled.div`
+interface ButtonProps {
+  isNotClickable?: boolean;
+}
+
+export const Button = styled.div<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 40px;
   border-radius: 12px;
-  background: #FF844C;
+  background: ${({ isNotClickable }) => isNotClickable ? '#cecccc' : '#FF844C'};
   text-align: center;
   color: white;
   font-size: 16px;
-  cursor: pointer;
+  cursor: ${({ isNotClickable }) => isNotClickable ? 'not-allowed' : 'pointer'};
   box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
   font-weight: bold;
 
   :hover {
-    background: rgba(255, 132, 76, 0.8);
+    background: ${({ isNotClickable }) => isNotClickable ? '' : 'rgba(255, 132, 76, 0.8)'};
   }
 `;
 

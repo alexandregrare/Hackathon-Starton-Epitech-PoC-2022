@@ -1,14 +1,20 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {Button} from "pages/Home/index";
+import pushFile from "client/pushFile";
+import {FileDataType} from "pages/Home/DropPage";
+import {generatePassword} from "utils/generatePassword";
 
 interface SuccessPageProps {
+  passwordValue: string;
+  fileData: FileDataType;
+  setPasswordValue: (str: string) => void;
+  setReloadStatus: (bool: boolean) => void;
   setSharedPageStatus: (bool: boolean) => void;
 }
 
-const SuccessPage = ({ setSharedPageStatus }: SuccessPageProps): JSX.Element => {
+const SuccessPage = ({ passwordValue, fileData, setPasswordValue, setReloadStatus, setSharedPageStatus }: SuccessPageProps): JSX.Element => {
   const [status, setStatus] = useState(false);
-  const [value, setValue] = useState('');
   const passwordRef = useRef(null);
 
   useEffect(() => {
@@ -24,18 +30,31 @@ const SuccessPage = ({ setSharedPageStatus }: SuccessPageProps): JSX.Element => 
   }, []);
 
   const handleClick = useCallback(() => {
-    if (status && value.length !== 0) {
+    if (status && passwordValue.length !== 0) {
       setSharedPageStatus(true);
     } else if (!status) {
       setSharedPageStatus(true);
     } else {
       setSharedPageStatus(false);
     }
-  }, [setSharedPageStatus, status, value])
+  }, [setSharedPageStatus, status, passwordValue])
 
   const handleChangeValue = useCallback((e) => {
-    setValue(e.target.value);
-  }, [])
+    setPasswordValue(e.target.value);
+  }, [setPasswordValue])
+
+  const handleUpload = useCallback(() => {
+    if (passwordValue) {
+      if (!pushFile({fileData, password: passwordValue})) {
+        setReloadStatus(true);
+      }
+    } else {
+      const password = generatePassword();
+      if (!pushFile({fileData, password})) {
+        setReloadStatus(true);
+      }
+    }
+  }, [fileData, passwordValue, setReloadStatus])
 
   return (
     <Container>
@@ -48,6 +67,7 @@ const SuccessPage = ({ setSharedPageStatus }: SuccessPageProps): JSX.Element => 
       <Input
         ref={passwordRef}
         isDisplayed={status}
+        value={passwordValue}
         onChange={handleChangeValue}
         placeholder={'Type your password... This will be used to encrypt your document.'}
       />

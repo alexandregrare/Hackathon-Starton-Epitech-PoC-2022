@@ -117,7 +117,7 @@ const DropPage = ({ fileData, setIsUpload, setReloadStatus, setFileData }: DropP
             <SizeLimite><ImportantWord>{!getSizeStatus({bytesValue: fileData?.size}) ? 'Size accept ✓' : 'Size NOT accept ✘' }</ImportantWord></SizeLimite>
           </>}
       </FileUploaded>
-      <Button onClick={handleUpload} >Upload</Button>
+      <Button isNotClickable={!fileData || loadStatus} onClick={handleUpload} >Upload</Button>
     </>
   );
 };
@@ -233,8 +233,10 @@ const FileUploaded = styled.div`
   border-radius: 8px;
 `;
 
-const FileMetaContainer = styled.div`
+export const FileMetaContainer = styled.div`
   display: flex;
+  height: 100%;
+  width: 100%;
   align-items: center;
   padding: 5px 0;
   box-sizing: border-box;
@@ -245,19 +247,21 @@ const FileIcon = styled.img`
   margin-right: 5px;
 `;
 
-const FileName = styled.p`
+export const FileName = styled.p`
   color: #3D3D3D;
-  width: 300px;
+  flex-grow: 1;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  max-width: 260px;
 `;
 
 const SizeLimite = styled.p`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   color: #3D3D3D;
+  min-width: 140px;
 `;
 
 export default DropPage;
