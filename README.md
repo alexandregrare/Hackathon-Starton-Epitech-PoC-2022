@@ -1,40 +1,37 @@
-# Hackathon-Starton-Epitech-PoC-2022
+# **dTransfer**
 
-## Problème
-Aujourd'hui, si vous souhaitez envoyer un fichier à quiconque, vous avez le choix d'utiliser des moyens tels que *WeTransfer*, *Swiss Transfer* et d'autres.  
-Le point commun entre ces entreprises est qu'elles stockent le contenu de votre fichier dans une base de données.
-Le problème lié à cette pratique ?  
-Ce stockage est entièrement centralisé et l'intégrité de votre donnée dans le temps dépend d'un acteur unique.
-
-*Quel problème votre projet résout-il ? Comment s'inscrit-il dans le thème "Construire un avenir décentralisé" ?*
+## Issue
+Today, if you want to send a file to somebody, you have the choice between many websites such as *WeTransfer*, *Swiss Transfer* and more.
+The common factor between these previous choices is that all of them are saving your files in a single centralized database.  
+What's the problem about that ?  
+All this data is centralized in a single place and its entirety depends on a single actor.
 
 ## Solution
-YourTransfer vous permet d'envoyer des fichiers à qui vous le souhaitez.  
-Le fichier en question n'est pas stocké sur une base de données centralisée, à laquelle nous avons accès à l'aide d'une simple requête, mais son contenu est envoyé sur la platforme IPFS.
+**dTransfer** lets your send files to who you want.  
+In opposition to other file transfering websites, dTransfer does not save your data in its own database, it is in fact encrypted and saved on the IPFS which ensures security, and availability.
 
-*Comment avez-vous résolu ce problème ? Quelles technologies avez-vous utilisé ? Quel a été le plus grand défi technique, comment votre solution le résout-elle ?*
-
-## Utilisation
-Afin d'utiliser notre projet, ouvrez votre navigateur favori et rejoignez notre site internet à l'adresse
-suivante: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
-*Expliquez, étape par étape, comment quelqu'un peut installer votre projet et jouer avec. Le jury utilisera principalement MacOS, Ubuntu, Android et iOS. Mettre en place un docker / docker-compose est une bonne idée pour permettre à quelqu'un de tester facilement le projet.*
-
-## Équipe et commentaires
-Équipe **Madeleine**:
+## Team and comments
+Team **Madeleine**:
 *   [Nicolas HEUDE](nicolas.heude@epitech.eu)
 *   [Jean-Baptiste DEBIZE](jean-baptise.debize@epitech.eu)
 *   [Elyes TOUMI](elyes.toumi@epitech.eu)
 *   [Alexandre GRARE](alexandre.grare@epitech.eu)
 
-Durant ce hackathon, nous avons appris à utiliser l'API Starton afin d'interagir avec IPFS.  
-*Précisez le nom de votre équipe (le même que sur le discord), et dites-nous ce que vous avez appris durant ce hackathon !*
+During this hackathon, we have learned using Starton's API in order to interact with IPFS.  
 
-## Rendu
+## Usage
+To use our product, open your browser and reach the following link: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
+Afin d'utiliser notre projet, ouvrez votre navigateur favori et rejoignez notre site internet à l'adresse
+suivante: [https://yourtransfer-app.heroku.com](https://yourtransfer-app.heroku.com)
+
+*   Drop a file in the area in the middle of your screen, or select it from your file explorer.
+*   Choose wether you want to use a password to increase security. It will be required to get the file content when clicking on the generated link.
+*   Click on the upload button once the file has been loaded.
+*   A link has been generated, copy it and send it to who you want (Don't forget to give them the secret password if you used one).
+
+
 *   Déposez un fichier dans le cadre prévu à cet effet, choisissez d'employer ou non un mot de passe afin de sécuriser votre lien, et validez une fois le fichier téléchargé.
 *   Le lien qui vient d'être généré permet à un utilisateur d'accéder à la donnée que vous avez déposée.
 
-*Fournissez une explication des fonctionnalités de vos projets. Vous devez obligatoirement lier une vidéo de démonstration et preciser avec screen recording et commentaire.*
 
-(exemple: Loom , 4 minutes max)*.
-
-## Présentation du Vendredi 13 Mai (4 minutes)
+## Demo Video
