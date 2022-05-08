@@ -20,14 +20,11 @@ interface File {
     file: string
 }
 
-const createUrl = (ipfsData: any, password: string) => {
+const createUrl = (ipfsData: any) => {
 
     const id = ipfsData.requestid;
-    let url = "http://localhost:3000/getFile?id="+id;
+    const url = "http://localhost:3000/getFile?id="+id;
 
-    if (password != undefined) {
-        url += "&password="+password;
-    }
     return url;
 }
 export default class IpfsController {
@@ -36,26 +33,21 @@ export default class IpfsController {
     {
         try {
             let data = new FormData();
-            let files: any = req.files
-            const password = req.body.password;
+            let file: any = req.body.file;
 
-            if (files == null) {
-                return res.status(400).json({ message: 'No files were uploaded.' });
+            if (file == null) {
+                return res.status(400).json({ message: 'No file was uploaded.' });
             }
-            const params : File = {
-                name: (files[0].originalname != undefined) ? files[0].originalname : "NoName",
-                file: files[0].buffer.toString()
-            };
 
-            data.append("file", params.file, params.name);
-            data.append("isSync", "true")
+            data.append("file", file);
+            data.append("isSync", "true");
 
             try {
                 const ipfsImg = await starton.post("/pinning/content/file", data, {
                     maxBodyLength: "Infinity",
                     headers: { "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`},
                 });
-                return res.status(200).send(createUrl(ipfsImg.data, password));
+                return res.status(200).send(createUrl(ipfsImg.data));
             } catch (error) {
                 console.error(error);
                 return res.status(500).send('Error while sending data to starton server.');

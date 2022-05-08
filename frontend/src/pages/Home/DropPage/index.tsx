@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Button} from "pages/Home/index";
-import { postFileIpfs } from "../../../server/postRoutes";
-import { getFileIpfs } from "../../../server/getRoutes";
 import styled from "styled-components";
 import {getSizeStatus} from "utils/getSizeStatus";
 import LoadAnimation from "pages/Home/DropPage/loadAnimation";
