@@ -24,7 +24,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     if (id && passwordValue) {
-      setUrl(`http://localhost:3000/download/?request_id=${id}&pw=${passwordValue}`)
+      setUrl(`https://dtransfer-app.vercel.app//download/?request_id=${id}&pw=${passwordValue}`)
     }
   }, [passwordValue, id])
 
