@@ -65,21 +65,23 @@ export default class IpfsController {
         }
 
         const id : string = tmpId.toString();
-        try {
-            const ipfsImg = await starton.get("/pinning/content/".concat(id), {
-                maxBodyLength: "Infinity",
-                headers: { "Content-Type": `multipart/form-data`}
-            })
-            .catch((e: any) => {
-                return res.status(500).send('Error while sending data to starton server');
-            });
+        const ipfsImg = await starton.get("/pinning/content/".concat(id), {
+            maxBodyLength: "Infinity",
+            headers: { "Content-Type": `multipart/form-data`}
+        })
+        .catch((e: any) => {
+            return res.status(500).send('Error while sending data to starton server');
+        });
 
-            const ipfsFile = await axios.get("https://ipfs.io/ipfs/".concat(ipfsImg.data.pinStatus.pin.cid));
+        for (let i : number = 0; i < 4; i++) {
+            try {
+                const ipfsFile = await axios.get("https://ipfs.io/ipfs/".concat(ipfsImg.data.pinStatus.pin.cid));
 
-            return res.status(200).send(ipfsFile.data);
-
-        } catch (error) {
-            return res.status(500).send('Error while trying to get data from ipfs');
+                return res.status(200).send(ipfsFile.data);
+            } catch (error) {}
         }
+
+        return res.status(500).send('Error while trying to get data from ipfs');
+
     }
 }
