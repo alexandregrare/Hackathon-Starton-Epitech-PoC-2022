@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import cors from 'cors';
 
-const BACKEND_PORT = 8080;
+const { BACKEND_PORT } = process.env;
 const app = express();
 let upload = multer();
 
@@ -18,4 +18,4 @@ app.use(express.static('public'));
 
 app.use(express.json({limit: '2mb'}))
 app.use("/ipfs/", IpfsRouter)
-app.listen(BACKEND_PORT, () => console.log(`Ready on port ${BACKEND_PORT}`));
+app.listen(`http://localhost:${BACKEND_PORT}`, () => console.log(`Ready on port ${BACKEND_PORT}`));
