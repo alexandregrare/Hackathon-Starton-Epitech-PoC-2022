@@ -60,6 +60,7 @@ export default class IpfsController {
     {
         const tmpId = req.query.request_id;
 
+        res.setTimeout(300000);
         if (tmpId == undefined) {
             return res.status(400).json({ message: 'No request id was provided.' });
         }
