@@ -16,7 +16,7 @@ const SharedPage = ({ setReloadStatus, link }: SharedPageProps): JSX.Element => 
     setHasLinkCopied(true);
     setIsSelected((old) => !old);
     navigator.clipboard.writeText(link);
-  }, [isSelected, link]);
+  }, [link]);
 
   const handleClickAnother = useCallback(() => {
     setReloadStatus(true);
